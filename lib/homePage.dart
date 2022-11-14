@@ -1,4 +1,3 @@
-import 'dart:math';
 import 'package:flutter/material.dart';
 import 'pictureViewer.dart';
 import 'listOfImages.dart';
@@ -14,7 +13,6 @@ class _MyHomePageState extends State<MyHomePage> {
   final ImagesData data = ImagesData();
   @override
   Widget build(BuildContext context) {
-    Size size = MediaQuery.of(context).size;
     return SafeArea(child:
     Scaffold(
         appBar: AppBar(
@@ -31,36 +29,55 @@ class _MyHomePageState extends State<MyHomePage> {
                   maxCrossAxisExtent: 200, crossAxisSpacing: 0, mainAxisSpacing: 0),
               itemCount: 20,
               itemBuilder: (BuildContext context, int index) {
-                return RawMaterialButton(
-                  onPressed: () {
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                          builder: (context) => SecondRoute(imageData: data.myimages[index],)),
-                    );
-                  },
-                  child: Column(
-                    mainAxisAlignment: MainAxisAlignment.start,
-                    children: [
-                      Padding(
-                        padding: const EdgeInsets.all(5.0),
-                        child: ClipRRect(borderRadius: BorderRadius.circular(4),
-                              child: Image(
-                                image: AssetImage(
-                                    data.myimages[index].path),
-                                fit: BoxFit.cover,
-                                height: max(size.height/6, size.width/6),
-                                width: max(size.height/6, size.width/6),
-                              ))
-                      ),
-                      Text(
-                        data.myimages[index].name,
-                        style: const TextStyle(
-                            fontSize: 18, fontWeight: FontWeight.normal),
-                      )
-                    ],
-                  ),
-                );
+                return Tooltip(
+                    message: data.myimages[index].name,
+                    waitDuration: const Duration(milliseconds: 100),
+                    showDuration: const Duration(milliseconds: 100),
+                    padding: const EdgeInsets.all(12),
+                    height: 35,
+                    verticalOffset: 75,
+                    preferBelow: true,
+                    textStyle: const TextStyle(
+                        fontSize: 15,
+                        color: Colors.white,
+                        fontWeight: FontWeight.normal),
+                    decoration: const BoxDecoration(
+                        borderRadius:
+                        BorderRadius.vertical(
+                          top: Radius.circular(0),
+                          bottom: Radius.circular(10),),
+                        boxShadow: [
+                          BoxShadow(
+                            color: Colors.black,
+                            blurRadius: 10.0,
+                            offset: Offset(6.0, 6.0),
+                          ),
+                        ],
+                        color: Colors.indigo),
+                    child:RawMaterialButton(
+                      onPressed: () {
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) => SecondRoute(imageData: data.myimages[index],)),
+                        );
+                      },
+                      hoverColor: Colors.indigo,
+                      child:
+                          Padding(
+                              padding: const EdgeInsets.all(2.0),
+                              child: ClipRRect(borderRadius: BorderRadius.circular(4),
+                                  child: Image(
+                                    image: AssetImage(
+                                        data.myimages[index].path),
+                                    fit: BoxFit.cover,
+                                    height: 150,
+                                    width: 150,
+                                  )
+                              )
+                          ),
+
+                    ));
               }
           ),
         )));
